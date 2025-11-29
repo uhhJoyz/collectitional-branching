@@ -21,11 +21,11 @@ static void RxTracer(u32 reducer_idx, Ptr<const Packet> p, const Address &from, 
     Ptr<Packet> copy = p->Copy();
     SeqTsHeader seq_ts;
     copy->RemoveHeader(seq_ts);
-    
+
     Time tx_time = seq_ts.GetTs();
     Time rx_time = Simulator::Now();
     Time delay = rx_time - tx_time;
-    
+
     g_delays_by_reducer[reducer_idx].push_back(delay);
 }
 
@@ -201,11 +201,11 @@ int main(int argc, char *argv[])
     // end simulation setup
     Simulator::Stop(Seconds(stop_time));
     Simulator::Run();
-    
+
     std::vector<Time> max_delays;
     std::vector<Time> delays;
     Time overall_delay = Seconds(0);
-    
+
     for (u32 j = 0; j < n_reducers; ++j)
     {
         const auto &vec = g_delays_by_reducer[j];
@@ -213,25 +213,29 @@ int main(int argc, char *argv[])
         {
             continue;
         }
-        
+
         Time sum = Seconds(0);
         Time max_delay = Seconds(0);
-        
-        for (auto d : vec) {
+
+        for (auto d : vec)
+        {
             sum += d;
-            if (d > max_delay) {
+            if (d > max_delay)
+            {
                 max_delay = d;
             }
         }
 
         max_delays.push_back(max_delay);
         delays.push_back(sum);
-        
+
         std::cout << "Reducer " << j << " max delay: " << max_delay.GetNanoSeconds() << " ns over " << vec.size() << " packets." << std::endl;
     }
-    
-    for (u32 i = 0; i < delays.size(); ++i) {
-        if (delays[i] > overall_delay) {
+
+    for (u32 i = 0; i < delays.size(); ++i)
+    {
+        if (delays[i] > overall_delay)
+        {
             overall_delay = delays[i];
         }
     }

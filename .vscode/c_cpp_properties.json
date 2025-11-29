@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/ns-3-dev/**",
                 "${workspaceFolder}/build/include/**",
-                "${workspaceFolder}/build/lib/**"
+                "${workspaceFolder}/build/lib/**",
+                "/opt/homebrew/Cellar/OpenSSL@3/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

@@ -8,8 +8,9 @@ COPY ./entrypoint.sh /app/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends python3 \
-    python3-pip python3-dev python3-venv cmake g++ make git xutils
-    
+    python3-pip python3-dev python3-venv cmake g++ make \
+    git xutils libssl-dev
+
 RUN python3 -m venv /app/.env && \
     . /app/.env/bin/activate && \
     pip install --upgrade pip
