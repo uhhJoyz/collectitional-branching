@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  const std::vector<long double> partition_bounds = initial_partitions(16);
+  std::vector<long double> partition_bounds = initial_partitions(16);
 
   std::vector<std::array<unsigned char, SHA256_DIGEST_LENGTH>> hashes;
   vectors_to_hashes(&data_vecs, &hashes);
@@ -48,6 +48,17 @@ int main(int argc, char *argv[])
   for (u32 i = 0; i < 8; i++)
   {
     std::cout << partition_bounded_map((unsigned char *)hashes[i].data(), (void *)args) << std::endl;
+  }
+
+  std::vector<long double> weights = initial_weights(16);
+  std::vector<u32> runtimes = {225, 180, 150, 200, 175, 190, 160, 20,
+                                       10, 195, 170, 155, 205, 215, 220, 230};
+
+  update_partitions(&partition_bounds, &weights, &runtimes);
+
+  for (size_t i = 0; i < partition_bounds.size(); i++)
+  {
+    std::cout << "Partition " << i << ": " << partition_bounds[i] << " Weight: " << weights[i] << " Runtime: " << runtimes[i] << std::endl;
   }
 
   return 0;

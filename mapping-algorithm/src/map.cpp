@@ -28,6 +28,7 @@ u32 partition_bounded_map(unsigned char *h, void *args)
 // adapted from two sources:
 // https://en.wikipedia.org/wiki/Proportional–integral–derivative_controller
 // https://www.digikey.com/en/maker/tutorials/2024/implementing-a-pid-controller-algorithm-in-python
+// unused & not included in header file
 u32 pid_controller(float err, float prev_err, float k_p, float k_i, float k_d, float *integral)
 {
   (*integral) += err;
@@ -53,13 +54,32 @@ std::vector<long double> initial_weights(size_t n_reducers)
   return weights;
 }
 
+// in this use-case, this operation is performed offline
+// and therefore doesn't need to be fast
 void update_partitions(std::vector<long double> *partition_bounds,
                        std::vector<long double> *weights,
-                       std::vector<u32> *runtime_diff_proportion)
+                       std::vector<u32> *runtimes)
 {
+  u32 total_runtime = 0;
+  for (size_t i = 0; i < runtimes->size(); i++)
+    total_runtime += runtimes->at(i);
+
+  std::vector<long double> sec_per_unit(weights->size());
   size_t n_reducers = partition_bounds->size();
   for (size_t i = 0; i < n_reducers; i++)
+    sec_per_unit.at(i) = 1 / ((static_cast<long double>(runtimes->at(i)) / static_cast<long double>(total_runtime)) / weights->at(i));
+
+  long double total_weights = 0.0;
+  for (auto w : sec_per_unit)
+    total_weights += w;
+
+  for (size_t i = 0; i < n_reducers; i++)
+    weights->at(i) = sec_per_unit.at(i) / total_weights;
+
+  long double running_sum = 0.0;
+  for (size_t i = 1; i < n_reducers; i++)
   {
-    // TODO: implement load balancing
+    running_sum += weights->at(i - 1);
+    partition_bounds->at(i) = running_sum;
   }
 }
