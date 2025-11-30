@@ -5,7 +5,7 @@
 
 u32 naive_map(unsigned char *h, void *args);
 u32 partition_bounded_map(unsigned char *h, void *args);
-u32 partition_hardware_aware(unsigned char *h, void *args);
+u32 partition_hw_strict(unsigned char *h, void *args);
 std::vector<long double> initial_partitions(size_t n_reducers);
 std::vector<long double> initial_weights(size_t n_reducers);
 

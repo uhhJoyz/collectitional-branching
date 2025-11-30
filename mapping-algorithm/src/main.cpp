@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   }
 
   std::vector<u32> machines = hashes_to_machine(&hashes, 16, &partition_bounds,
-                                                &hardware_codes, partition_hardware_aware);
+                                                &hardware_codes, partition_hw_strict);
 
   for (u32 i = 0; i < machines.size(); i++)
   {

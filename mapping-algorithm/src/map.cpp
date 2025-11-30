@@ -84,7 +84,7 @@ void update_partitions(std::vector<long double> *partition_bounds,
   }
 }
 
-u32 partition_hardware_aware(unsigned char *h, void *args)
+u32 partition_hw_strict(unsigned char *h, void *args)
 {
   u32 n_reducers = (u32)((size_t *)args)[0];
   std::vector<long double> *partition_bounds = ((std::vector<long double> **)args)[1];
