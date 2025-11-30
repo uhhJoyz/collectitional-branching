@@ -83,3 +83,29 @@ void update_partitions(std::vector<long double> *partition_bounds,
     partition_bounds->at(i) = running_sum;
   }
 }
+
+u32 partition_hardware_aware(unsigned char *h, void *args)
+{
+  u32 n_reducers = (u32)((size_t *)args)[0];
+  std::vector<long double> *partition_bounds = ((std::vector<long double> **)args)[1];
+  size_t operation_code = *((size_t **)args)[2];
+
+  long double hardware_factor = 2.0f;
+  long double hardware_offset = 0.5f;
+  if (operation_code < 128u)
+  {
+    hardware_factor = 2.0f;
+    hardware_offset = 0.0f;
+  }
+
+  long double val = (static_cast<long double>(*(reinterpret_cast<size_t *>(h))) / UINT64_MAX) / hardware_factor + hardware_offset;
+  std::cout << "Mapped value: " << val << " hw offset: " << hardware_offset << " opcode: " << operation_code << std::endl;
+  size_t i = 0;
+
+  // linear scan because n_reducers is small (in simulation)
+  while (val > partition_bounds->at(i) && i < partition_bounds->size() - 1)
+  {
+    i++;
+  }
+  return i;
+}

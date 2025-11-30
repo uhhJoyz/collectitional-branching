@@ -59,14 +59,15 @@ void vectors_to_hashes(std::vector<std::vector<u32>> *in_vecs,
 
 std::vector<u32> hashes_to_machine(std::vector<std::array<unsigned char, SHA256_DIGEST_LENGTH>> *in_hashes,
                                    const size_t n_reducers, const std::vector<long double> *partition_bounds,
+                                   const std::vector<size_t> *hardware_codes,
                                    u32 (*map)(unsigned char *, void *))
 {
-  size_t args[2] = {n_reducers, (size_t)partition_bounds};
   std::vector<u32> out_reducer_indices(in_hashes->size());
 
-#pragma omp parallel for
+// #pragma omp parallel for
   for (size_t i = 0; i < in_hashes->size(); i++)
   {
+    size_t args[3] = {n_reducers, (size_t)partition_bounds, (size_t)&hardware_codes->at(i)};
     out_reducer_indices[i] = map((unsigned char *)&in_hashes->at(i), (void *)&args);
   }
   return out_reducer_indices;

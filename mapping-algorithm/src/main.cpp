@@ -37,7 +37,15 @@ int main(int argc, char *argv[])
     std::cout << hash_to_string(hashes[i].data(), SHA256_DIGEST_LENGTH) << std::endl;
   }
 
-  std::vector<u32> machines = hashes_to_machine(&hashes, 16, &partition_bounds, naive_map);
+  std::vector<size_t> hardware_codes(64);
+  for (size_t i = 0; i < hardware_codes.size(); i++)
+  {
+    hardware_codes[i] = rand() % 256;
+    std::cout << "Hardware code " << i << ": " << hardware_codes[i] << std::endl;
+  }
+
+  std::vector<u32> machines = hashes_to_machine(&hashes, 16, &partition_bounds,
+                                                &hardware_codes, partition_hardware_aware);
 
   for (u32 i = 0; i < machines.size(); i++)
   {
@@ -52,7 +60,7 @@ int main(int argc, char *argv[])
 
   std::vector<long double> weights = initial_weights(16);
   std::vector<u32> runtimes = {225, 180, 150, 200, 175, 190, 160, 20,
-                                       10, 195, 170, 155, 205, 215, 220, 230};
+                               10, 195, 170, 155, 205, 215, 220, 230};
 
   update_partitions(&partition_bounds, &weights, &runtimes);
 

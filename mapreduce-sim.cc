@@ -29,7 +29,7 @@ static void RxTracer(u32 reducer_idx, Ptr<const Packet> p, const Address &from, 
     g_delays_by_reducer[reducer_idx].push_back(delay);
 }
 
-static std::vector<double> zipf_cfd(u32 m, double alpha)
+static std::vector<double> zipf_cdf(u32 m, double alpha)
 {
     std::vector<double> cdf(m);
     if (m == 0)
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
         zipf_alpha = 0.0f;
     }
 
-    std::vector<double> cdf = zipf_cfd(n_reducers, zipf_alpha);
+    std::vector<double> cdf = zipf_cdf(n_reducers, zipf_alpha);
     std::vector<u32> planned_reducer_ops(n_reducers, 0);
     std::vector<std::vector<u32>> op_mappings(n_mappers, std::vector<u32>(n_reducers, 0));
 
