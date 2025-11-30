@@ -64,10 +64,13 @@ std::vector<u32> hashes_to_machine(std::vector<std::array<unsigned char, SHA256_
 {
   std::vector<u32> out_reducer_indices(in_hashes->size());
 
-// #pragma omp parallel for
+  // #pragma omp parallel for
   for (size_t i = 0; i < in_hashes->size(); i++)
   {
-    size_t args[3] = {n_reducers, (size_t)partition_bounds, (size_t)&hardware_codes->at(i)};
+    size_t args[3] = {n_reducers, (size_t)partition_bounds,
+                      // skips the dereference if hardware_codes is a nullptr
+                      hardware_codes != nullptr ? (size_t)&hardware_codes->at(i) : (size_t)nullptr};
+
     out_reducer_indices[i] = map((unsigned char *)&in_hashes->at(i), (void *)&args);
   }
   return out_reducer_indices;
