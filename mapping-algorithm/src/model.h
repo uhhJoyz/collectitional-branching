@@ -13,8 +13,6 @@
 long double bank_level_est(size_t size, size_t operation);
 long double gpu_est(size_t size, size_t operation);
 long double cpu_est(size_t size, size_t operation);
-std::vector<long double> model_machines(size_t n_reducers, std::vector<u32> machines,
-                                        std::vector<size_t> op_codes,
-                                        long double (*model)(size_t size, size_t operation));
+std::vector<long double> model_machines(size_t n_reducers, std::vector<u32> machines, std::vector<size_t> op_codes);
 
 #endif // MODEL_H

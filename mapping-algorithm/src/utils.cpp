@@ -12,6 +12,8 @@ std::vector<u32> read_mappings(std::string file_path)
   {
     while (std::getline(file, line))
     {
+      if (line.empty())
+        continue;
       vec.push_back(static_cast<u32>(std::stoul(line)));
     }
     file.close();
