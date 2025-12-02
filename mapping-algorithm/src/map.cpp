@@ -87,12 +87,12 @@ void update_partitions(std::vector<long double> *partition_bounds,
 u32 partition_hw_strict(unsigned char *h, void *args)
 {
   u32 n_reducers = (u32)((size_t *)args)[0];
-  std::vector<long double> *partition_bounds = ((std::vector<long double> **)args)[1];
-  size_t operation_code = *((size_t **)args)[2];
+  std::vector<long double> *partition_bounds = (std::vector<long double> *)((size_t *)args)[1];
+  size_t operation_code = *((size_t *)((size_t *)args)[2]);
 
   long double hardware_factor = 2.0f;
   long double hardware_offset = 0.5f;
-  if (operation_code < 128u)
+  if (operation_code < 2u)
   {
     hardware_factor = 2.0f;
     hardware_offset = 0.0f;

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cstddef>
+#include <iostream>
 #include <math.h>
 
 std::vector<long double> model_machines(size_t n_reducers, std::vector<u32> machines, std::vector<size_t> op_codes)
@@ -18,7 +19,7 @@ std::vector<long double> model_machines(size_t n_reducers, std::vector<u32> mach
   for (size_t i = 0; i < n_reducers; i++)
   {
     long double (*model)(size_t size, size_t operation);
-    if (n_reducers >= n_reducers / 2)
+    if (i >= n_reducers / 2)
     {
       model = gpu_est;
     }

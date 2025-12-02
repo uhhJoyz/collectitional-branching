@@ -5,10 +5,10 @@
 #include <cstddef>
 #include <vector>
 
-#define OP_VEC_ADD 1u
-#define OP_VEC_DOT 2u
-#define OP_MAT_MAT 3u
-#define OP_MAT_VEC 4u
+#define OP_VEC_ADD 0u
+#define OP_VEC_DOT 1u
+#define OP_MAT_MAT 2u
+#define OP_MAT_VEC 3u
 
 long double bank_level_est(size_t size, size_t operation);
 long double gpu_est(size_t size, size_t operation);

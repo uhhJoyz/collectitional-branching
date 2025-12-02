@@ -35,7 +35,7 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
   std::vector<size_t> hardware_codes(BENCH_SIZE);
   for (size_t i = 0; i < hardware_codes.size(); i++)
   {
-    hardware_codes[i] = rand() % 256;
+    hardware_codes[i] = rand() % 4;
   }
 
   std::vector<u32> machines;
@@ -61,7 +61,7 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
 
   for (size_t i = 0; i < hardware_codes.size(); i++)
   {
-    hardware_codes[i] = rand() % 256;
+    hardware_codes[i] = rand() % 4;
   }
 
   machines = hashes_to_machine(&hashes, n_reducers, &partition_bounds,
@@ -72,7 +72,7 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
 
 int main(int argc, char *argv[])
 {
-  benchmark_timings(naive_map, "naive_mappings.txt");
+  // benchmark_timings(naive_map, "naive_mappings.txt");
   benchmark_timings(partition_bounded_map, "partition_bounded_mappings.txt");
   benchmark_timings(partition_hw_strict, "partition_hw_strict_mappings.txt");
   return 0;
