@@ -17,6 +17,9 @@ u32 partition_bounded_map(unsigned char *h, void *args)
   long double val = static_cast<long double>(*(reinterpret_cast<u64 *>(h))) / UINT64_MAX;
   size_t i = 0;
 
+  if (val < partition_bounds->at(1)) {
+    return 0u;
+  }
   // linear scan because n_reducers is small
   while (val > partition_bounds->at(i) && i < partition_bounds->size() - 1)
   {
@@ -67,7 +70,8 @@ void update_partitions(std::vector<long double> *partition_bounds,
   std::vector<long double> sec_per_unit(weights->size());
   size_t n_reducers = partition_bounds->size();
   for (size_t i = 0; i < n_reducers; i++)
-    sec_per_unit.at(i) = 1 / ((static_cast<long double>(runtimes->at(i)) / static_cast<long double>(total_runtime)) / weights->at(i));
+    sec_per_unit.at(i) = runtimes->at(i) != 0 ? 1.0l / ((static_cast<long double>(runtimes->at(i)) / static_cast<long double>(total_runtime)) / weights->at(i))
+                                                      : weights->at(i);
 
   long double total_weights = 0.0;
   for (auto w : sec_per_unit)
@@ -101,6 +105,9 @@ u32 partition_hw_strict(unsigned char *h, void *args)
   long double val = (static_cast<long double>(*(reinterpret_cast<size_t *>(h))) / UINT64_MAX) / hardware_factor + hardware_offset;
   size_t i = 0;
 
+  if (val < partition_bounds->at(1)) {
+    return 0u;
+  }
   // linear scan because n_reducers is small (in simulation)
   while (val > partition_bounds->at(i) && i < partition_bounds->size() - 1)
   {
