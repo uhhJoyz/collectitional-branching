@@ -11,7 +11,7 @@ std::vector<long double> initial_weights(size_t n_reducers);
 
 void update_partitions(std::vector<long double> *partition_bounds,
                        std::vector<long double> *weights,
-                       std::vector<u32> *runtimes);
+                       std::vector<long double> *runtimes);
 static std::vector<double> zipf_cdf(u32 m, double alpha);
 
 #endif // MAP_H

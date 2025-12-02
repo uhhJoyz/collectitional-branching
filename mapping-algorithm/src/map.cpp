@@ -58,7 +58,7 @@ std::vector<long double> initial_weights(size_t n_reducers)
 // and therefore doesn't need to be fast
 void update_partitions(std::vector<long double> *partition_bounds,
                        std::vector<long double> *weights,
-                       std::vector<u32> *runtimes)
+                       std::vector<long double> *runtimes)
 {
   u32 total_runtime = 0;
   for (size_t i = 0; i < runtimes->size(); i++)
