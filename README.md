@@ -4,6 +4,7 @@ Simulation infrastructure to evaluate the performance of device-aware mapping in
 
 ## Links
 - [Mapping Algorithm Readme](./mapping-algorithm/README.md)
+- [Benchmark Readme](./benchmark/README.md)
 
 ## Notes
 
@@ -35,5 +36,5 @@ docker run colbra
 
 Windows:
 ```bash
-no idea && skill issue && use WSL
+# if you know, please feel free to open a PR!
 ```
