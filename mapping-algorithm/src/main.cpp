@@ -10,7 +10,7 @@
 #include "map.h"
 #include "model.h"
 #include "utils.h"
-#define BENCH_SIZE 65536 * 4
+#define BENCH_SIZE 65536 / 4
 #define BENCH_ITERS 100
 
 void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_path)
