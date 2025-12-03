@@ -10,8 +10,8 @@
 #include "map.h"
 #include "model.h"
 #include "utils.h"
-#define BENCH_SIZE 1000
-#define BENCH_ITERS 10
+#define BENCH_SIZE 65536
+#define BENCH_ITERS 100
 
 void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_path)
 {
@@ -48,7 +48,7 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
 
   auto end = std::chrono::high_resolution_clock::now();
   std::cout << "Timing: "
-            << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
+            << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / float(BENCH_ITERS)
             << " ms" << std::endl;
 
   std::vector<long double> weights = initial_weights(n_reducers);
@@ -86,8 +86,8 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
 
 int main(int argc, char *argv[])
 {
-  // benchmark_timings(naive_map, "naive_mappings.txt");
-  benchmark_timings(partition_hw_strict, "partition_hw_strict_mappings.txt");
+  benchmark_timings(naive_map, "naive_mappings.txt");
   benchmark_timings(partition_bounded_map, "partition_bounded_mappings.txt");
+  benchmark_timings(partition_hw_strict, "partition_hw_strict_mappings.txt");
   return 0;
 }

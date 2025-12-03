@@ -2,9 +2,10 @@ FROM ubuntu:22.04
 
 WORKDIR /app
 
-COPY ./mapreduce-sim.cc /app/
-COPY ./ns-3-dev /app/
-COPY ./entrypoint.sh /app/
+COPY ./mapreduce-sim.cc /app/ns-3-dev/scratch/mapreduce-sim.cc
+COPY ./ns-3-dev /app/ns-3-dev
+COPY ./entrypoint.sh /app/entrypoint.sh
+COPY ./mapping-algorithm/*.txt /app/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends python3 \
@@ -21,8 +22,6 @@ RUN cd /app/ns-3-dev && \
     cp /app/mapreduce-sim.cc /app/ns-3-dev/scratch/ && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-COPY . /app
 
 EXPOSE 5000
 

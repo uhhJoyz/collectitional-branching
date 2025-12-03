@@ -28,10 +28,10 @@ std::vector<long double> model_machines(size_t n_reducers, std::vector<u32> mach
       model = bank_level_est;
     }
     long double time = 0.0l;
-    time += model(machine_ops[i][OP_VEC_ADD], OP_VEC_ADD);
-    time += model(machine_ops[i][OP_VEC_DOT], OP_VEC_DOT);
-    time += model(machine_ops[i][OP_MAT_MAT], OP_MAT_MAT);
-    time += model(machine_ops[i][OP_MAT_VEC], OP_MAT_VEC);
+    time += model(machine_ops[i][OP_VEC_ADD]*16, OP_VEC_ADD);
+    time += model(machine_ops[i][OP_VEC_DOT]*16, OP_VEC_DOT);
+    time += model(machine_ops[i][OP_MAT_MAT]*16, OP_MAT_MAT);
+    time += model(machine_ops[i][OP_MAT_VEC]*16, OP_MAT_VEC);
     runtimes[i] = time;
   }
 

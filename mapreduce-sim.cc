@@ -100,11 +100,10 @@ static u32 zipf_pick(const std::vector<double> &cdf, double u)
 
 int main(int argc, char *argv[])
 {
-  u32 n_mappers = 4;
-  u32 n_reducers = 4;
+  u32 n_mappers = 16;
+  u32 n_reducers = 16;
   u32 ops_per_mapper = 1000;
   double zipf_alpha = 1.2;
-  // TODO: make variable
   u32 packet_size = 512;
   std::string link_data_rate = "100.0Gbps";
   std::string link_delay = "100us";
@@ -125,7 +124,7 @@ int main(int argc, char *argv[])
   cmd.AddValue("input_file", "input file for mapping", mapping_file);
   cmd.Parse(argc, argv);
 
-  NS_ABORT_IF(n_mappers == 0 || n_reducers == 0);
+  NS_ABORT_IF(n_mappers == 0 || n_reducers == 0 || mapping_file.empty());
   g_delays_by_reducer.assign(n_reducers, std::vector<Time>{});
   std::vector<u32> mappings = read_mappings(mapping_file);
 
