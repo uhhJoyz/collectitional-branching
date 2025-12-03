@@ -10,7 +10,7 @@
 #include "map.h"
 #include "model.h"
 #include "utils.h"
-#define BENCH_SIZE 65536 / 4
+#define BENCH_SIZE 65536 * 4
 #define BENCH_ITERS 100
 
 void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_path)
@@ -54,6 +54,13 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
   std::vector<long double> weights = initial_weights(n_reducers);
   std::vector<long double> runtimes = model_machines(n_reducers, machines, hardware_codes);
 
+  long double prev_max_time = -1l;
+  for (size_t i = 0; i < runtimes.size(); i++)
+    if (runtimes[i] > prev_max_time) {
+      prev_max_time = runtimes[i];
+      // std::cout << "Runtime for machine " << i << ": " << runtimes[i] << std::endl;
+    }
+
   if (map == partition_bounded_map)
   {
     update_partitions(&partition_bounds, &weights, &runtimes);
@@ -76,6 +83,7 @@ void benchmark_timings(u32 (*map)(unsigned char *, void *), std::string file_pat
       // std::cout << "Runtime for machine " << i << ": " << runtimes[i] << std::endl;
     }
   std::cout << "Accelerator Runtime: " << max_time << " ms" << std::endl;
+  std::cout << "Previous Iteration Time: " << prev_max_time << " ms" << std::endl;
 }
 
 int main(int argc, char *argv[])
